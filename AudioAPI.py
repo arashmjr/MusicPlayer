@@ -2,11 +2,39 @@ from playsound import playsound
 from flask_classy import FlaskView, route
 from SoundManager import SoundManager
 from SongModel import SongModel
+from flask import Flask, render_template, request
 
 class AudioApi(FlaskView):
 
     @route('/play', methods=['POST'])
     def play(self):
+        SoundManager.get_instance().play_songs()
+        return 'Success'
+
+
+    @route('/next', methods=['GET'])
+    def next(self):
+        SoundManager.get_instance().next_song()
+        return 'Success'
+
+
+    @route('/previous', methods=['GET'])
+    def previous(self):
+        SoundManager.get_instance().previous_song()
+        return 'Success'
+
+    @route('/pause', methods=['GET'])
+    def pause(self):
+        SoundManager.get_instance().pause_song()
+        return 'Success'
+
+    @route('/resume', methods=['GET'])
+    def resume(self):
+        SoundManager.get_instance().resume_song()
+        return 'Success'
+
+    @route('/', methods=['GET'])
+    def set(self):
         songs_list = [SongModel(id=50,
                                 name="Tanha-Nazar",
                                 artist="Sirvan khosravi",
@@ -32,29 +60,9 @@ class AudioApi(FlaskView):
                                 duration=150.5,
                                 url=r"resources\song4.mp3"),
                       ]
+        SoundManager.get_instance().set_songs(songs_list, 0)
+        return render_template('index.html')
 
-        # print(len(songs_list))
-        SoundManager.get_instance().play_songs(songs_list, 0)
-        return 'Success'
 
-    @route('/next', methods=['GET'])
-    def next(self):
-        SoundManager.get_instance().next_song()
-        return 'Success'
-
-    @route('/previous', methods=['GET'])
-    def previous(self):
-        SoundManager.get_instance().previous_song()
-        return 'Success'
-
-    @route('/pause', methods=['GET'])
-    def pause(self):
-        SoundManager.get_instance().pause_song()
-        return 'Success'
-
-    @route('/unpause', methods=['GET'])
-    def unpause(self):
-        SoundManager.get_instance().unpause_song()
-        return 'Success'
 
 

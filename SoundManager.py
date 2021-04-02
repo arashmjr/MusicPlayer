@@ -1,6 +1,6 @@
 from typing import List
 from SongModel import SongModel
-from playsound import playsound
+# from playsound import playsound
 import pygame
 
 
@@ -11,6 +11,7 @@ class SoundManager:
     current_song: SongModel = None
     current_index: int = None
     isPlaying: bool = None
+    isPaused: bool = None
     manager: pygame.mixer
 
 
@@ -28,6 +29,9 @@ class SoundManager:
         self.current_index = None
         self.current_song = None
         self.isPlaying = None
+        self.isPaused = None
+
+
 
         """ Virtually private constructor. """
         if SoundManager.__instance != None:
@@ -35,18 +39,23 @@ class SoundManager:
         else:
             SoundManager.__instance = self
 
-
-    def play_songs(self, songs: List[SongModel], index: int):
+    def set_songs(self, songs: List[SongModel], index: int):
         self.songs = songs
         if index < len(songs) and index >= 0 :
             self.current_song = songs[index]
             self.current_index = index
             self.isPlaying = True
-            print(self.__dict__)
-            self.manager.music.load(self.current_song.url)
-            self.manager.music.play()
+            # self.manager.music.load(self.current_song.url)
+            # self.manager.music.play()
+            # print(self.__dict__)
             # playsound(self.current_song.url)
         return {'success': False}
+
+    def play_songs(self):
+        print(self.current_song)
+        self.manager.music.load(self.current_song.url)
+        self.manager.music.play()
+        self.isPaused = False
 
 
     def next_song(self):
@@ -82,10 +91,23 @@ class SoundManager:
             return
         self.isPlaying = False
         self.manager.music.pause()
+        self.isPaused = True
 
-    def unpause_song(self):
-        if self.current_song is None:
-            return
-        self.isPlaying = True
-        self.manager.music.unpause()
+
+    def resume_song(self):
+        if self.isPaused == True:
+            self.manager.music.unpause()
+        else:
+            self.play_songs()
+
+        self.isPaused = False
+
+
+    # def resume_song(self):
+    #     if self.current_song is None:
+    #         return
+    #     self.isPlaying = True
+    #     self.manager.music.unpause()
+
+
 

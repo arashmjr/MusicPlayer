@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Player</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <h1>Play your favorite music</h1>
+            <img src="/static/images/ab.jpg" alt='this is img'>
+            <input id="range" class="level" type="range" value="0" min="0">
+            <div class="buttons">
+                <button id="pre_btn"><img src="/static/images/rewind.png" alt='img'></button>
+                <button id="play_resume_pause_btn"><img id="playId" src="/static/images/play.png" alt='img'></button>
+                <button id="next_btn"><img src="/static/images/fast-forward.png" alt='img'></button>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+
+        var request = new XMLHttpRequest()
+
+        function absolute(relative) {
+            base = 'http://127.0.0.1:5000/';
+            var stack = base.split("/");
+            var parts = relative.split("/");
+            {#console.log(parts)#}
+            {#console.log(stack)#}
+            stack.pop();
+            for (var i=0; i<parts.length; i++) {
+                stack.push(parts[i]);
+            }
+            absolute_path = stack.join("/");
+            return absolute_path;
+        }
+
+        {#console.log(document.getElementById('playId').src)#}
+
+        document.getElementById("play_resume_pause_btn").onclick=function(){
+            if(document.getElementById('playId').src === absolute('static/images/play.png')){
+                document.getElementById('playId').src = absolute('static/images/pause.png');
+                request.open('GET' ,'http://127.0.0.1:5000/resume', true)
+                request.send()
+            } else {
+                if (document.getElementById('playId').src === absolute('static/images/pause.png')) {
+                    document.getElementById("playId").src = absolute('static/images/play.png');
+                    request.open('GET', 'http://127.0.0.1:5000/pause', true)
+                    request.send()
+                }
+            }};
+
+
+        document.getElementById("next_btn").onclick=function(){
+            document.getElementById('playId').src = absolute('static/images/pause.png');
+            request.open('GET', 'http://127.0.0.1:5000/next', true)
+            request.send()
+};
+
+        document.getElementById("pre_btn").onclick=function(){
+            document.getElementById('playId').src = absolute('static/images/pause.png');
+            request.open('GET', 'http://127.0.0.1:5000/previous', true)
+            request.send()
+};
+
+    </script>
+</body>
+</html>
+
