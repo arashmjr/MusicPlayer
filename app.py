@@ -1,12 +1,19 @@
-from flask import Flask, render_template, request
-from SoundManager import SoundManager
-from SongModel import SongModel
-# from flask_classy import FlaskView, route
+from flask import Flask
 from AudioAPI import AudioApi
+from routes import play_blueprint, next_blueprint, previous_blueprint, pause_blueprint, resume_blueprint
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    AudioApi.register(app, route_base='/')
+    app.register_blueprint(play_blueprint)
+    app.register_blueprint(next_blueprint)
+    app.register_blueprint(previous_blueprint)
+    app.register_blueprint(pause_blueprint)
+    app.register_blueprint(resume_blueprint)
 
-AudioApi.register(app, route_base='/')
+    return app
+
+# AudioApi.register(app, route_base='/')
 
 if __name__ == '__main__':
-    app.run()
+    create_app().run()

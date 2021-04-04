@@ -6,32 +6,32 @@ from flask import Flask, render_template, request
 
 class AudioApi(FlaskView):
 
-    @route('/play', methods=['POST'])
-    def play(self):
-        SoundManager.get_instance().play_songs()
-        return 'Success'
-
-
-    @route('/next', methods=['GET'])
-    def next(self):
-        SoundManager.get_instance().next_song()
-        return 'Success'
-
-
-    @route('/previous', methods=['GET'])
-    def previous(self):
-        SoundManager.get_instance().previous_song()
-        return 'Success'
-
-    @route('/pause', methods=['GET'])
-    def pause(self):
-        SoundManager.get_instance().pause_song()
-        return 'Success'
-
-    @route('/resume', methods=['GET'])
-    def resume(self):
-        SoundManager.get_instance().resume_song()
-        return 'Success'
+    # @route('/play', methods=['POST'])
+    # def play(self):
+    #     SoundManager.get_instance().play_songs()
+    #     return 'Success'
+    #
+    #
+    # @route('/next', methods=['GET'])
+    # def next(self):
+    #     SoundManager.get_instance().next_song()
+    #     return 'Success'
+    #
+    #
+    # @route('/previous', methods=['GET'])
+    # def previous(self):
+    #     SoundManager.get_instance().previous_song()
+    #     return 'Success'
+    #
+    # @route('/pause', methods=['GET'])
+    # def pause(self):
+    #     SoundManager.get_instance().pause_song()
+    #     return 'Success'
+    #
+    # @route('/resume', methods=['GET'])
+    # def resume(self):
+    #     SoundManager.get_instance().resume_song()
+    #     return 'Success'
 
     @route('/', methods=['GET'])
     def set(self):
