@@ -1,6 +1,6 @@
  var request = new XMLHttpRequest()
 
- 
+
  function absolute(relative) {
 
     base = 'http://127.0.0.1:5000/';
